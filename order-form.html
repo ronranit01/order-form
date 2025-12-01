@@ -312,7 +312,7 @@
         document.getElementById('deliveryDate').min = new Date().toISOString().split('T')[0];
         
         // Your Google Apps Script URL (REPLACE THIS)
-        const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPa5NNfzVHj74cV9ZmJzSujq1HD5-lFtULmrb-_Ic6XZsOQGqk0YAfnWfem4_2hQu4/exec";
         
         document.getElementById('orderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -378,4 +378,5 @@
         });
     </script>
 </body>
+
 </html>
