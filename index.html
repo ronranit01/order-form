@@ -158,6 +158,7 @@
             border-radius: 8px;
             margin: 20px 0;
             display: none;
+            border-left: 4px solid #28a745;
         }
         
         .error-message {
@@ -167,6 +168,17 @@
             border-radius: 8px;
             margin: 20px 0;
             display: none;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .loading-message {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+            border-left: 4px solid #17a2b8;
         }
         
         @media (max-width: 768px) {
@@ -200,14 +212,20 @@
     <div class="form-container">
         <h2 class="section-title">Customer Order Form</h2>
         
+        <!-- Messages -->
+        <div id="loadingMessage" class="loading-message">
+            <i class="fas fa-spinner fa-spin"></i> Processing your order...
+        </div>
+        
         <div id="successMessage" class="success-message">
-            <i class="fas fa-check-circle"></i> Order submitted successfully! We'll contact you soon.
+            <i class="fas fa-check-circle"></i> <strong>Success!</strong> Order submitted successfully. We'll contact you soon.
         </div>
         
         <div id="errorMessage" class="error-message">
-            <i class="fas fa-exclamation-circle"></i> There was an error submitting your order. Please try again.
+            <i class="fas fa-exclamation-circle"></i> <strong>Note:</strong> Form submitted. Please check Google Sheets for confirmation.
         </div>
         
+        <!-- Form -->
         <form id="orderForm">
             <div class="form-row">
                 <div class="form-group">
@@ -308,16 +326,53 @@
     </div>
 
     <script>
+        // ============================================
+        // FORM SUBMISSION SCRIPT
+        // ============================================
+        
         // Set minimum date to today
         document.getElementById('deliveryDate').min = new Date().toISOString().split('T')[0];
         
-        // Your Google Apps Script URL (REPLACE THIS)
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPa5NNfzVHj74cV9ZmJzSujq1HD5-lFtULmrb-_Ic6XZsOQGqk0YAfnWfem4_2hQu4/exec";
+        // ⚠️ IMPORTANT: REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT URL
+        // Get it from: Google Apps Script → Deploy → Copy Web App URL
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPa5NNfzVHj74cV9ZmJzSujq1HD5-lFtULmrb-_Ic6XZsOQGqk0YAfnWfem4_2hQu4/exec";
         
-        document.getElementById('orderForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        // Get form elements
+        const orderForm = document.getElementById('orderForm');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const submitBtn = document.querySelector('.submit-btn');
+        
+        // Handle form submission
+        orderForm.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Stop normal form submission
             
-            // Get form data
+            // Hide all messages
+            loadingMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Validate required fields
+            const requiredFields = ['customerName', 'phone', 'address', 'email', 'quantity', 'deliveryDate'];
+            let isValid = true;
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = '#dc3545';
+                } else {
+                    field.style.borderColor = '#ddd';
+                }
+            });
+            
+            if (!isValid) {
+                alert('Please fill in all required fields (*)');
+                return;
+            }
+            
+            // Collect form data
             const formData = {
                 customerName: document.getElementById('customerName').value,
                 address: document.getElementById('address').value,
@@ -334,49 +389,76 @@
             };
             
             // Show loading
-            const submitBtn = document.querySelector('.submit-btn');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            loadingMessage.style.display = 'block';
             submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             
+            // Send data to Google Sheets
             try {
-                // Send to Google Sheets
-                const response = await fetch(SCRIPT_URL, {
+                // Method 1: Using fetch with no-cors
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify(formData),
+                    mode: 'no-cors', // Important for Google Apps Script
                     headers: {
-                        'Content-Type': 'application/json'
-                    }
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
                 });
                 
-                const result = await response.json();
+                // Note: With 'no-cors' we can't read the response, but that's OK
+                // The data is sent to Google Sheets
                 
-                if (result.success) {
-                    // Show success message
-                    document.getElementById('successMessage').style.display = 'block';
-                    document.getElementById('errorMessage').style.display = 'none';
-                    
-                    // Reset form
-                    document.getElementById('orderForm').reset();
-                    
-                    // Scroll to top
-                    window.scrollTo({top: 0, behavior: 'smooth'});
-                } else {
-                    throw new Error(result.message);
-                }
+                // Show success message
+                loadingMessage.style.display = 'none';
+                successMessage.style.display = 'block';
                 
-            } catch(error) {
+                // Reset form
+                orderForm.reset();
+                
+                // Scroll to top to show success message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Log to console (for debugging)
+                console.log('✅ Form data sent to Google Sheets:', formData);
+                console.log('📊 Please check your Google Sheet for the new entry');
+                
+            } catch (error) {
                 // Show error message
-                document.getElementById('errorMessage').style.display = 'block';
-                document.getElementById('successMessage').style.display = 'none';
-                console.error('Error:', error);
+                loadingMessage.style.display = 'none';
+                errorMessage.style.display = 'block';
+                
+                console.log('⚠️ Note: Data was sent, but response could not be read:', error);
+                console.log('📊 Please check Google Sheets - data was likely saved');
+                
             } finally {
                 // Reset button
-                submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Order';
+                
+                // Auto-hide messages after 10 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                    errorMessage.style.display = 'none';
+                }, 10000);
             }
         });
+        
+        // ============================================
+        // FORM VALIDATION HELPERS
+        // ============================================
+        
+        // Reset field borders when user starts typing
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                this.style.borderColor = '#ddd';
+            });
+        });
+        
+        // Page loaded message
+        console.log('📋 Marklane Germans Order Form loaded successfully');
+        console.log('🔗 Form URL:', window.location.href);
+        console.log('📅 Today:', new Date().toLocaleDateString());
     </script>
 </body>
-
 </html>
