@@ -1,0 +1,316 @@
+/* ============================================
+   PRODUCT SELECTION STYLES
+   Separate file for easy maintenance
+   ============================================ */
+
+/* Selected Products Container */
+.selected-products-container {
+    background-color: #f8f9fa;
+    border-radius: 3px;
+    padding: 7px;
+    margin-bottom: 8px;
+    border-left: 2px solid #ceab13;
+    display: none;
+}
+
+.selected-products-container label {
+    display: block;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 3px;
+    font-size: 11px;
+}
+
+.selected-products-container label i {
+    color: #ceab13;
+    margin-right: 3px;
+    font-size: 10px;
+}
+
+/* Selected Tags Display */
+.selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 24px;
+    align-items: center;
+}
+
+.selected-tag {
+    background-color: #ceab13;
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-weight: 500;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.remove-tag {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 1;
+    margin-left: 2px;
+}
+
+.remove-tag:hover {
+    color: #ff4444;
+}
+
+.no-selection {
+    color: #888;
+    font-style: italic;
+    font-size: 10px;
+    padding: 2px 0;
+}
+
+/* Product Selection Grid */
+.product-selection-section {
+    margin-bottom: 14px;
+}
+
+/* DESKTOP: Grid layout */
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.product-option {
+    padding: 6px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    font-size: 11px;
+    text-align: center;
+    line-height: 1.1;
+    font-weight: 400;
+    color: #444;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    min-height: 32px;
+    flex: 0 0 auto; /* Don't grow, don't shrink, auto basis */
+}
+
+/* Dynamic sizes based on content */
+.product-option.short-text {
+    padding: 6px 10px;
+}
+
+.product-option.long-text {
+    padding: 6px 14px;
+}
+
+.product-option:hover {
+    background-color: #f0f0f0;
+    border-color: #ceab13;
+}
+
+.product-option.selected {
+    background-color: #ceab13;
+    border-color: #ceab13;
+    color: #000;
+    font-weight: 500;
+}
+
+/* Product Grid Actions */
+.product-grid-actions {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+}
+
+.btn-secondary {
+    padding: 3px 6px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    transition: all 0.1s;
+    font-weight: 500;
+    flex: 1;
+    justify-content: center;
+    min-width: 90px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Selection Info Text */
+.selection-info {
+    color: #666;
+    font-size: 9px;
+    font-style: italic;
+    margin-top: 2px;
+    line-height: 1.2;
+}
+
+.selection-info i {
+    color: #7f8c8d;
+    margin-right: 2px;
+    font-size: 8px;
+}
+
+/* ===== RESPONSIVE DESIGN FOR PRODUCT GRID ===== */
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+    .product-grid {
+        gap: 5px;
+    }
+    
+    .product-option {
+        padding: 5px 10px;
+        font-size: 10px;
+        min-height: 28px;
+        border-radius: 10px;
+    }
+    
+    .product-option.short-text {
+        padding: 5px 8px;
+    }
+    
+    .product-option.long-text {
+        padding: 5px 12px;
+    }
+    
+    .selected-tag {
+        font-size: 8px;
+        padding: 1px 6px;
+        border-radius: 6px;
+    }
+    
+    .btn-secondary {
+        padding: 2px 5px;
+        font-size: 8.5px;
+        min-width: 85px;
+    }
+}
+
+/* Mobile Phones (480px and below) */
+@media (max-width: 480px) {
+    .product-grid {
+        gap: 4px;
+    }
+    
+    .product-option {
+        padding: 4px 8px;
+        font-size: 9px;
+        min-height: 26px;
+        border-radius: 8px;
+    }
+    
+    .product-option.short-text {
+        padding: 4px 6px;
+    }
+    
+    .product-option.long-text {
+        padding: 4px 10px;
+        font-size: 8.5px;
+    }
+    
+    .product-grid-actions {
+        gap: 3px;
+        margin-bottom: 4px;
+    }
+    
+    .btn-secondary {
+        padding: 2px 4px;
+        font-size: 8px;
+        min-width: 80px;
+    }
+}
+
+/* Very Small Phones (360px and below) */
+@media (max-width: 360px) {
+    .product-grid {
+        gap: 3px;
+    }
+    
+    .product-option {
+        padding: 3px 6px;
+        font-size: 8.5px;
+        min-height: 24px;
+        border-radius: 6px;
+    }
+    
+    .product-option.short-text {
+        padding: 3px 5px;
+    }
+    
+    .product-option.long-text {
+        padding: 3px 7px;
+        font-size: 8px;
+    }
+    
+    /* Stack buttons vertically on very small screens */
+    .product-grid-actions {
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .btn-secondary {
+        width: 100%;
+        min-width: auto;
+        padding: 3px 6px;
+    }
+}
+
+/* Horizontal/Tablet in Portrait (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) and (orientation: portrait) {
+    .product-grid {
+        gap: 5px;
+    }
+    
+    .product-option {
+        font-size: 9.5px;
+        min-height: 26px;
+        padding: 4px 9px;
+    }
+    
+    .product-option.short-text {
+        padding: 4px 7px;
+    }
+    
+    .product-option.long-text {
+        padding: 4px 11px;
+    }
+}
+
+/* Landscape Mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .product-grid {
+        gap: 4px;
+    }
+    
+    .product-option {
+        font-size: 9px;
+        min-height: 24px;
+        padding: 3px 7px;
+    }
+    
+    .product-option.short-text {
+        padding: 3px 6px;
+    }
+    
+    .product-option.long-text {
+        padding: 3px 8px;
+    }
+}
