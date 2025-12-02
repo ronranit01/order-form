@@ -141,9 +141,9 @@
 
 // Configuration
 const CONFIG = {
-    productsJson: './json/products.json',
-    basePath: './images/products/',
-    defaultImage: './images/products/default.png'
+    basePath: 'images/products/',
+    defaultImage: 'images/products/default.png',
+    productsJson: 'json/products.json',
     imageExtensions: ['.png', '.jpg', '.jpeg', '.webp', '.gif']
 };
 
@@ -625,3 +625,4 @@ async function debugListAllImages() {
 // Uncomment to debug:
 
 // debugListAllImages();
+
