@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Jacket",
+      "folder": "jackets",
+      "price": 450,
+      "description": "Premium quality jacket with multiple pockets",
+      "category": "Outerwear"
+    },
+    {
+      "id": 2,
+      "name": "Poloshirt",
+      "folder": "polos",
+      "price": "starts at 250",
+      "description": "Classic polo shirt for casual wear",
+      "category": "Shirts"
+    },
+    {
+      "id": 3,
+      "name": "Tshirt",
+      "folder": "tshirts",
+      "price": 150,
+      "description": "100% cotton t-shirt",
+      "category": "Shirts"
+    },
+    {
+      "id": 4,
+      "name": "Hoodies",
+      "folder": "hoodies",
+      "price": 350,
+      "description": "Comfortable hoodie with front pocket",
+      "category": "Outerwear"
+    },
+        {
+      "id": 5,
+      "name": "4311123",
+      "folder": "ZXCASD",
+      "price": 350,
+      "description": "Comfortable hoodie with front pocket",
+      "category": "Outerwear"
+    }
+  ]
+}
